@@ -9,3 +9,6 @@ script to analyze cost vs protein
 2. Wait for it to load
 3. Open .ipynb file
 4. Shift+enter your way through the cells
+
+# Screenshot:
+![alt text](https://github.com/pomkos/brotein/blob/master/image.png "Quick preview")
