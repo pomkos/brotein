@@ -1,5 +1,3 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pomkos/brotein/master)
-
 # brotein
 script to analyze cost vs protein
 
@@ -11,4 +9,5 @@ script to analyze cost vs protein
 4. Shift+enter your way through the cells
 
 # Screenshot:
-![alt text](https://github.com/pomkos/brotein/blob/master/image.png "Quick preview")
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pomkos/brotein/master)
