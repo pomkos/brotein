@@ -12,3 +12,4 @@ script to analyze cost vs protein
 
 # Screenshot:
 
+[![image](https://github.com/pomkos/brotein/blob/master/Untitled.png)
