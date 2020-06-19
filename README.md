@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pomkos/brotein/master)
+
 # brotein
 script to analyze cost vs protein
 
@@ -10,4 +12,3 @@ script to analyze cost vs protein
 
 # Screenshot:
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pomkos/brotein/master)
