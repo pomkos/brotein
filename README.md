@@ -21,7 +21,7 @@ To run in "prod":
 
 source ~/anaconda3/etc/profile.d/conda.sh
 
-cd /dir/to/bro_env
+cd /dir/to/brotein
 conda activate bro_env # activate the new conda env
 
 nohup streamlit run brotein.py --server.port 8512 & # run in background
