@@ -94,6 +94,5 @@ import pandas as pd
 import sqlalchemy as sq
 engine = sq.create_engine('sqlite:///brotein.db')
 df = pd.read_sql_table('brotein',engine,parse_dates='date_added')
+df = df.iloc[:,1:]
 df = df.sort_values('cost_per_20g')
-
-df
