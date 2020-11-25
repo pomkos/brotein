@@ -37,9 +37,11 @@ class saveInfo():
                db_table, meta, 
                sq.Column('id', sq.Integer, primary_key = True), 
                sq.Column('brand', sq.String), 
+               sq.Column('protein_per_100kc', sq.Float),
                sq.Column('price_per_20g', sq.Float),
                sq.Column('price',sq.Float),
                sq.Column('g_per_scoop',sq.Float),
+               sq.Column('cal_per_scoop',sq.Float),
                sq.Column('servings_in_bag',sq.Float),
                sq.Column('date_added',sq.DateTime),
             )
@@ -82,11 +84,12 @@ class saveInfo():
         if type(sort_by)==str:
             df = df.sort_values(sort_by)
 
-        if highlight_in != None:
-            if (self.kind == 'bar') & (highlight_in == 'Protein per 100 calories'):
-                df = df.style.highlight_max(subset=highlight_in,color='#f7f123')
-            else:
-                df = df.style.highlight_max(subset=highlight_in,color='#f7ff99')
+#         if highlight_in != None:
+#             if (self.kind == 'bar') & (highlight_in == 'Protein per 100 calories'):
+#                 df['Protein per 100 calories'] = df['Protein per 100 calories'].astype(float)
+#                 df = df.style.highlight_min(subset=highlight_in,color='#f7f123')
+#             else:
+#                 df = df.style.highlight_max(subset=highlight_in,color='#f7ff99')
         
         return df
 def table_formatter(dataframe,kind):
@@ -108,8 +111,8 @@ def table_formatter(dataframe,kind):
     dataframe[float_cols] = dataframe[float_cols].applymap('{:,.2f}'.format)
     
     if kind == 'powder':
-        dataframe.columns = ['Brand','Price of 20g Protein','Price','Grams per Scoop', 'Num of Servings','Date Added']
-        dataframe = dataframe[['Brand','Grams per Scoop', 'Num of Servings','Price of 20g Protein','Price','Date Added']]
+        dataframe.columns = ['Brand','Protein per 100 calories','Price of 20g Protein','Price','Protein per Scoop','Calories per Scoop', 'Num of Servings','Date Added']
+        dataframe = dataframe[['Brand','Calories per Scoop','Protein per Scoop', 'Protein per 100 calories','Price of 20g Protein','Price','Num of Servings','Date Added']]
         
     elif kind == 'bar':
          dataframe.columns = ['Brand','Price per Snack','Protein per 100 calories','Price of 20g Protein','Num of Servings','Carbs','Fats','Protein','Calories','Price','Date Added', 'Carb/Fat/Pro']
@@ -161,17 +164,23 @@ def submit_info(row_info, kind):
 
 if analysis == 'Brotein Powder':
     ### Whey Layout ###
-    st.write("## Let's compare whey bro!")
-    whey_brand = st.text_input(label='Brand name', key='brand_whey',)
-    col_price, col_pro, col_cal, col_serv = st.beta_columns(4)
-    with col_price:
-        price = st.number_input(label='Price ($)*',step=10.0)
-    with col_pro:
-        protein_scoop_g = st.number_input(label='Grams of protein per scoop*',step=10.0)
+    st.write("## Let's compare wheys bro!")
+    
+    col_pro_name, col_pro_price = st.beta_columns(2)
+    
+    with col_pro_name:
+        whey_brand = st.text_input(label='Brand name', key='brand_whey',)
+    with col_pro_price:
+        price = st.number_input(label='Price ($)*',step=10.0)    
+        
+    col_serv, col_cal, col_pro = st.beta_columns(3)
     with col_cal:
-        cal_per_scoop = st.number_input(label='Calories per scoop',step=10.0)
+        cal_per_scoop = st.number_input(label='Calories per scoop*',step=10.0)
     with col_serv:
-        servings = st.number_input(label='Scoops per bag*',step=1.0)
+        servings = st.number_input(label='Scoops per bag*',step=10.0)
+    with col_pro:
+        protein_scoop_g = st.number_input(label='Protein per scoop (g)*',step=10.0)
+        
     try:
         bropow_dict = {
             'brand':whey_brand,
@@ -237,4 +246,4 @@ else:
     show = saveInfo(kind='bar',show=True)
     df_bar = show.show_table(highlight_in='Protein per 100 calories')
     st.table(df_bar)
-    st.warning('NOTE: At least 10g of protein per 100 calories recommended if cutting.')
+st.warning('NOTE: At least 10g of protein per 100 calories recommended if cutting.')
