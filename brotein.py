@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Is The Brotein Worth It?")
+st.title("Never get scammed by Big Bro again!")
 
 class saveInfo():
     def __init__(self, kind, row_info=0,show=False):
