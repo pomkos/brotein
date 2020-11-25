@@ -143,9 +143,9 @@ if analysis == 'Brotein Powder':
     whey_brand = st.text_input(label='Brand name', key='brand_whey',)
     col_price, col_pro, col_serv = st.beta_columns(3)
     with col_price:
-        price = st.number_input(label='Price in dollars*',step=10.0)
+        price = st.number_input(label='Price ($)*',step=10.0)
     with col_pro:
-        protein_scoop_g = st.number_input(label='Grams per scoop*',step=10.0)
+        protein_scoop_g = st.number_input(label='Grams of protein per scoop*',step=10.0)
     with col_serv:
         servings = st.number_input(label='Scoops per bag*',step=1.0)
     try:
@@ -162,6 +162,7 @@ if analysis == 'Brotein Powder':
             submit_info(row_info = bro_dict,kind='powder')
     except:
         st.warning('Not enough info to calculate')
+        st.warning('NOTE: Some whey proteins have 2 scoops per serving of protein. Make sure to divide by two.')
     show = saveInfo(kind='powder',show=True)
     df_powder = show.show_table(sort_by='Price of 20g Protein',highlight_in='Price of 20g Protein')
     st.table(df_powder)
@@ -179,7 +180,7 @@ else:
         
     col_serv,col_fat,col_cho,col_aa = st.beta_columns(4)
     with col_serv:
-        servings = st.number_input(label='Serving (bars/pack)*',min_value=0.0,step=1.0,)
+        servings = st.number_input(label='Servings (bars/box)*',min_value=0.0,step=1.0,)
     with col_fat:
         fat_g = st.number_input(label='Fats (g)',min_value=0.0,step=10.0,)
     with col_cho:
