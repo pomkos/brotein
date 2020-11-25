@@ -26,12 +26,12 @@ conda activate bro_env # activate the new conda env
 
 nohup streamlit run brotein.py --server.port 8512 & # run in background
 ```
-* Make it executable with `chmod +x my_script.sh`
+* Make it executable with `chmod +x brotein.sh`
 * You can exit the terminal and streamlit will continue serving the python file. 
 * Cronjob to have the server start at each reboot:
 ```bash
 crontab -e
-@reboot /home/peter/scripts/payme.sh #add this line at the bottom
+@reboot /home/peter/scripts/brotein.sh #add this line at the bottom
 ```
 
 # Screenshot
