@@ -230,4 +230,4 @@ else:
     show = saveInfo(kind='bar',show=True)
     df_bar = show.show_table(highlight_in='Protein per 100 calories')
     st.table(df_bar)
-    st.warning('NOTE: Recommend is 10g of protein per 100 calories if cutting.')
+    st.warning('NOTE: 10g of protein per 100 calories recommended if cutting.')
