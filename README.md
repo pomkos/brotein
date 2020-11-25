@@ -34,7 +34,7 @@ crontab -e
 @reboot /home/peter/scripts/brotein.sh #add this line at the bottom
 ```
 
-# Screenshot
+# Screenshots
 
 ## Whey Powder Calculator
 <img src="https://github.com/pomkos/brotein/blob/master/brotein_pro.png" width="620">
