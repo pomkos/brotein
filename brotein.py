@@ -18,18 +18,17 @@ class saveInfo():
         # initialize engine
         engine = sq.create_engine('sqlite:///brotein.db')
         meta = sq.MetaData()
-        if showme=='no':
-            # table format in db
-            self.brotein = sq.Table(
-               'brotein', meta, 
-               sq.Column('id', sq.Integer, primary_key = True), 
-               sq.Column('brand', sq.String), 
-               sq.Column('cost_per_20g', sq.Float),
-               sq.Column('price',sq.Float),
-               sq.Column('g_per_scoop',sq.Float),
-               sq.Column('servings_in_bag',sq.Float),
-               sq.Column('date_added',sq.DateTime),
-            )
+        # table format in db
+        self.brotein = sq.Table(
+           'brotein', meta, 
+           sq.Column('id', sq.Integer, primary_key = True), 
+           sq.Column('brand', sq.String), 
+           sq.Column('cost_per_20g', sq.Float),
+           sq.Column('price',sq.Float),
+           sq.Column('g_per_scoop',sq.Float),
+           sq.Column('servings_in_bag',sq.Float),
+           sq.Column('date_added',sq.DateTime),
+        )
 
             # format data into proper list of dictionaries
             tz = timezone('US/Eastern')
