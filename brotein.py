@@ -30,10 +30,10 @@ class saveInfo():
            sq.Column('date_added',sq.DateTime),
         )
 
-            # format data into proper list of dictionaries
-            tz = timezone('US/Eastern')
-            row_info['date_added'] = dt.datetime.now(tz)
-            self.row = row_info
+        # format data into proper list of dictionaries
+        tz = timezone('US/Eastern')
+        row_info['date_added'] = dt.datetime.now(tz)
+        self.row = row_info
         meta.create_all(engine) # not sure why its needed, but its in the tutorial so ... :shrug:
         self.engine = engine
         
