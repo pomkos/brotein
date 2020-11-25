@@ -70,13 +70,12 @@ class saveInfo():
         import datetime as dt
         conn = self.engine.connect()
         result = conn.execute(self.brotein.insert(), self.row)
+        
     def show_table(self, sort_by = None, highlight_in = None):
         import pandas as pd
-        
-        db_table = self.db_table
-        
-        df_og = pd.read_sql(db_table,self.engine,parse_dates='date_added')
+        df_og = pd.read_sql_table(self.db_table,self.engine,parse_dates='date_added')
         df_og = df_og.drop('id',axis=1)
+        
         df = table_formatter(df_og,self.kind)
         
         if type(sort_by)==str:
@@ -132,8 +131,8 @@ analysis = st.select_slider(
     ('Brotein Powder','Brotein Snack')
 )
 
-def submit_info(kind):
-    save = saveInfo(row_info=bro_dict,kind=kind)
+def submit_info(row_info, kind):
+    save = saveInfo(row_info=row_info,kind=kind)
     save.save_table()
     st.success('Saved in brotein database.')
 
@@ -158,9 +157,9 @@ if analysis == 'Brotein Powder':
         }
         bro_dict,statement = brotein(bropow_dict,kind='powder')
         st.info(statement)
-        submit = st.button(label='Submit')
+        submit = st.button(label='Submit',key='submit_powder')
         if submit == True:
-            submit_info(kind='powder')
+            submit_info(row_info = bro_dict,kind='powder')
     except:
         st.warning('Not enough info to calculate')
     show = saveInfo(kind='powder',show=True)
@@ -187,6 +186,7 @@ else:
         cho_g = st.number_input(label='Carbohydrates (g)',min_value=0.0,step=10.0,)
     with col_aa:
         pro_g = st.number_input(label='Protein (g)*',min_value=0.0,step=10.0,)
+        
     try:
         ### Calculate ###
         brobar_dict = {
@@ -200,12 +200,11 @@ else:
         bar_dict, statement = brotein(brobar_dict, kind='bar')
         st.info(statement)
 
-        submit = st.button(label='Submit')
+        submit = st.button(label='Submit',key='submit_snack')
         if submit == True:
-            submit_info(kind='bar')          
+            submit_info(row_info=bar_dict, kind='bar')          
     except:
         st.warning('Not enough info to calculate')
-
     ### Show Database ###
     show = saveInfo(kind='bar',show=True)
     df_bar = show.show_table(highlight_in='Price of 20g Protein')
