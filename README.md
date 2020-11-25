@@ -35,4 +35,4 @@ crontab -e
 ```
 
 # Screenshot
-![](image.png?raw=true)
+<img src="https://github.com/pomkos/brotein/blob/main/images/image.png" width="620">
