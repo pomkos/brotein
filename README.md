@@ -9,7 +9,7 @@ Just a simple repo to compare protein powder of all types
   conda create --name bro_env python=3.6
   conda activate bro_env
   cd brotein
-  pip install -r recommendations.txt
+  pip install -r requirements.txt
   ```
 3. Run within the environment with `streamlit run brotein --server.port 8512`, it will be accessible at localhost:8512
 
