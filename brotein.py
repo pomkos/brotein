@@ -83,7 +83,10 @@ class saveInfo():
             df = df.sort_values(sort_by)
 
         if highlight_in != None:
-            df = df.style.highlight_min(subset=highlight_in,color='#f7ff99')
+            if (self.kind == 'bar') & (highlight_in == 'Protein per 100 calories'):
+                df = df.style.highlight_max(subset=highlight_in,color='#f7f123')
+            else:
+                df = df.style.highlight_max(subset=highlight_in,color='#f7ff99')
         
         return df
 def table_formatter(dataframe,kind):
@@ -226,3 +229,4 @@ else:
     show = saveInfo(kind='bar',show=True)
     df_bar = show.show_table(highlight_in='Protein per 100 calories')
     st.table(df_bar)
+    st.warning('NOTE: Recommend is 10g of protein per 100 calories if cutting.')
