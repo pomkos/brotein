@@ -112,8 +112,9 @@ def table_formatter(dataframe,kind):
         dataframe = dataframe[['Brand','Grams per Scoop', 'Num of Servings','Price of 20g Protein','Price','Date Added']]
         
     elif kind == 'bar':
-        dataframe.columns = ['Brand','Price per Snack','Price of 20g Protein','Protein per 100 calories','Num of Servings','Carbs','Fats','Protein','Calories','Price','Date Added', 'Carb/Fat/Pro']
-        dataframe = dataframe[['Brand','Calories','Carb/Fat/Pro','Protein per 100 calories','Price per Snack','Price of 20g Protein','Price','Num of Servings','Date Added']]
+         dataframe.columns = ['Brand','Price per Snack','Protein per 100 calories','Price of 20g Protein','Num of Servings','Carbs','Fats','Protein','Calories','Price','Date Added', 'Carb/Fat/Pro']
+        
+         dataframe = dataframe[['Brand','Calories','Carb/Fat/Pro','Protein per 100 calories','Price per Snack','Price of 20g Protein','Price','Num of Servings','Date Added']]
         
     return dataframe
         
@@ -139,8 +140,8 @@ def brotein(my_dict, kind):
         protein_cal = round((my_dict['protein']/my_dict['calories'])*100,2)
         my_dict['price_per_serving'] = bar_cost
         my_dict['price_per_20g'] = aa_cost
-        my_dict['protein_cal'] = protein_cal
-        statement = f"{my_dict['brand']} is ${my_dict['price_per_serving']} per snack, ${my_dict['price_per_20g']} per 20g protein, and {my_dict['protein_cal']}g of protein per 100 calories."
+        my_dict['protein_per_100kc'] = protein_cal
+        statement = f"{my_dict['brand']} is ${my_dict['price_per_serving']} per snack, ${my_dict['price_per_20g']} per 20g protein, and {my_dict['protein_per_100kc']}g of protein per 100 calories."
     return my_dict, statement
 
 analysis = st.select_slider(
