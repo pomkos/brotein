@@ -131,8 +131,12 @@ def brotein(my_dict, kind):
         my_dict = 0
     if kind == 'powder':
         st_cost = round((my_dict['price']/(my_dict['g_per_scoop'] * servings))*20,2)
+        protein_cal = round((my_dict['g_per_scoop']/my_dict['cal_per_scoop'])*100,2)
+        
+        my_dict['protein_per_100kc'] = protein_cal
         my_dict['price_per_20g'] = st_cost
-        statement = f'''{my_dict['brand']} is ${my_dict['price_per_20g']} per 20g protein.'''
+        
+        statement = f'''{my_dict['brand']} has {my_dict['protein_per_100kc']}g protein per 100 calories, and is ${my_dict['price_per_20g']} per 20g protein.'''
         
     elif kind == 'bar':
         bar_cost = round((my_dict['price']/my_dict['servings']),2)
@@ -159,11 +163,13 @@ if analysis == 'Brotein Powder':
     ### Whey Layout ###
     st.write("## Let's compare whey bro!")
     whey_brand = st.text_input(label='Brand name', key='brand_whey',)
-    col_price, col_pro, col_serv = st.beta_columns(3)
+    col_price, col_pro, col_cal, col_serv = st.beta_columns(4)
     with col_price:
         price = st.number_input(label='Price ($)*',step=10.0)
     with col_pro:
         protein_scoop_g = st.number_input(label='Grams of protein per scoop*',step=10.0)
+    with col_cal:
+        cal_per_scoop = st.number_input(label='Calories per scoop',step=10.0)
     with col_serv:
         servings = st.number_input(label='Scoops per bag*',step=1.0)
     try:
@@ -172,6 +178,7 @@ if analysis == 'Brotein Powder':
             'price':price,
             'g_per_scoop':protein_scoop_g,
             'servings_in_bag':servings,
+            'cal_per_scoop':cal_per_scoop
         }
         bro_dict,statement = brotein(bropow_dict,kind='powder')
         st.info(statement)
