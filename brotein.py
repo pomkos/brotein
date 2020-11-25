@@ -51,11 +51,13 @@ class saveInfo():
                 sq.Column('id', sq.Integer, primary_key = True), 
                 sq.Column('brand', sq.String), 
                 sq.Column('price_per_serving', sq.Float),
+                sq.Column('protein_per_100kc',sq.Float),
                 sq.Column('price_per_20g', sq.Float),
                 sq.Column('servings',sq.Float),
                 sq.Column('carbs',sq.Float),
                 sq.Column('fats',sq.Float),
                 sq.Column('protein',sq.Float),
+                sq.Column('calories',sq.Float),
                 sq.Column('price',sq.Float),
                 sq.Column('date_added',sq.DateTime),
             )
@@ -75,7 +77,6 @@ class saveInfo():
         import pandas as pd
         df_og = pd.read_sql_table(self.db_table,self.engine,parse_dates='date_added')
         df_og = df_og.drop('id',axis=1)
-        
         df = table_formatter(df_og,self.kind)
         
         if type(sort_by)==str:
@@ -89,18 +90,28 @@ def table_formatter(dataframe,kind):
     '''
     pd.Dataframe.style keeps adding trailing zeros to all digits. This function formats all floats to str to only 2 digits (9.99)
     '''
+    if kind == 'bar':
+        dataframe[['carbs','fats','protein']] = dataframe[['carbs','fats','protein']].astype({
+            'carbs':int,
+            'fats':int,
+            'protein':int})
+        dataframe['carbfatpro'] = dataframe['carbs'].astype(str) + '/' + dataframe['fats'].astype(str) + '/' + dataframe['protein'].astype(str)
+
     df_type = dataframe.dtypes.reset_index()
     float_cols = []
     for i, row in df_type.iterrows():
-        if row[0] == float:
+        if (row[0] == float) & (row['index']!='carbfatpro'):
             float_cols.append(row['index'])
     dataframe[float_cols] = dataframe[float_cols].applymap('{:,.2f}'.format)
+    
     if kind == 'powder':
         dataframe.columns = ['Brand','Price of 20g Protein','Price','Grams per Scoop', 'Num of Servings','Date Added']
         dataframe = dataframe[['Brand','Grams per Scoop', 'Num of Servings','Price of 20g Protein','Price','Date Added']]
+        
     elif kind == 'bar':
-        dataframe.columns = ['Brand','Price per Snack','Price of 20g Protein','Num of Servings','Carbs','Fats','Protein','Price','Date Added']
-        dataframe = dataframe[['Brand','Carbs','Fats','Protein','Price per Snack','Price of 20g Protein','Price','Num of Servings','Date Added']]
+        dataframe.columns = ['Brand','Price per Snack','Price of 20g Protein','Protein per 100 calories','Num of Servings','Carbs','Fats','Protein','Calories','Price','Date Added', 'Carb/Fat/Pro']
+        dataframe = dataframe[['Brand','Calories','Carb/Fat/Pro','Protein per 100 calories','Price per Snack','Price of 20g Protein','Price','Num of Servings','Date Added']]
+        
     return dataframe
         
 def brotein(my_dict, kind):
@@ -118,12 +129,15 @@ def brotein(my_dict, kind):
         st_cost = round((my_dict['price']/(my_dict['g_per_scoop'] * servings))*20,2)
         my_dict['price_per_20g'] = st_cost
         statement = f'''{my_dict['brand']} is ${my_dict['price_per_20g']} per 20g protein.'''
+        
     elif kind == 'bar':
         bar_cost = round((my_dict['price']/my_dict['servings']),2)
-        my_dict['price_per_serving'] = bar_cost
         aa_cost = round((bar_cost/my_dict['protein'])*20,2)
+        protein_cal = round((my_dict['protein']/my_dict['calories'])*100,2)
+        my_dict['price_per_serving'] = bar_cost
         my_dict['price_per_20g'] = aa_cost
-        statement = f"{my_dict['brand']} is ${my_dict['price_per_serving']} per snack and ${my_dict['price_per_20g']} per 20g protein."
+        my_dict['protein_cal'] = protein_cal
+        statement = f"{my_dict['brand']} is ${my_dict['price_per_serving']} per snack, ${my_dict['price_per_20g']} per 20g protein, and {my_dict['protein_cal']}g of protein per 100 calories."
     return my_dict, statement
 
 analysis = st.select_slider(
@@ -172,15 +186,17 @@ else:
     st.write("## Let's compare snacks bro!")
     
     ### Layout ###
-    col_name, col_price = st.beta_columns(2)
+    col_name, col_price,col_serv = st.beta_columns(3)
     with col_name:
         bar_brand = st.text_input(label = 'Brand name', key='brand_bar',)
     with col_price:
         bar_price = st.number_input(label='Price ($)*', min_value=0.0, step=10.0,)
-        
-    col_serv,col_fat,col_cho,col_aa = st.beta_columns(4)
     with col_serv:
-        servings = st.number_input(label='Servings (bars/box)*',min_value=0.0,step=1.0,)
+        servings = st.number_input(label='Servings (bars/box)*',min_value=0.0,step=1.0,)        
+
+    col_cal,col_fat,col_cho,col_aa = st.beta_columns(4)
+    with col_cal:
+        calories = st.number_input(label='Calories*',min_value=0.0,step=10.0)
     with col_fat:
         fat_g = st.number_input(label='Fats (g)',min_value=0.0,step=10.0,)
     with col_cho:
@@ -194,13 +210,13 @@ else:
             'brand':bar_brand,
             'price':bar_price,
             'servings':servings,
+            'calories':calories,
             'carbs':cho_g,
             'fats':fat_g,
             'protein':pro_g
         }
         bar_dict, statement = brotein(brobar_dict, kind='bar')
         st.info(statement)
-
         submit = st.button(label='Submit',key='submit_snack')
         if submit == True:
             submit_info(row_info=bar_dict, kind='bar')          
@@ -208,5 +224,5 @@ else:
         st.warning('Not enough info to calculate')
     ### Show Database ###
     show = saveInfo(kind='bar',show=True)
-    df_bar = show.show_table(highlight_in='Price of 20g Protein')
+    df_bar = show.show_table(highlight_in='Protein per 100 calories')
     st.table(df_bar)
