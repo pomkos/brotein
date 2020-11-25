@@ -15,7 +15,6 @@ Just a simple repo to compare protein powder of all types
 
 To run in "prod":
 
-<<<<<<< HEAD
 * Create the following script
 ```
 #!/bin/bash
@@ -37,8 +36,3 @@ crontab -e
 
 # Screenshot
 ![](image.png?raw=true)
-=======
-# Screenshot:
-
-![image](https://github.com/pomkos/brotein/blob/master/Untitled.png)
->>>>>>> 1158639399da0bbc317b42aa994175971b601449
