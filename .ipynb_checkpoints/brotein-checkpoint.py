@@ -244,14 +244,14 @@ def table_formatter(dataframe,kind):
                              'Num of Servings','Date Added']
         dataframe = dataframe[['Brand','Calories per Scoop','Protein per Scoop',
                                'Protein per 100 calories','Price of 20g Protein',
-                               'Price','Num of Servings','Date Added']]
+                               'Price','Num of Servings']]
     elif kind == 'bar':
         dataframe.columns = ['Brand','Price per Snack','Protein per 100 calories',
                              'Price of 20g Protein','Num of Servings','Carbs','Fats',
                              'Protein','Calories','Price','Date Added', 'Carb/Fat/Pro']
         dataframe = dataframe[['Brand','Calories','Carb/Fat/Pro','Protein per 100 calories',
                                'Price per Snack','Price of 20g Protein','Price',
-                               'Num of Servings','Date Added']]
+                               'Num of Servings']]
     return dataframe
 
 def submit_info(row_info, kind):
