@@ -3,7 +3,7 @@
 1. [Description](#brotein)
 2. [Screenshots](#screenshots)
   1. [Whey Powder Calculator](#whey-powder-calculator)
-  2. [Protein Snack Calculator](#protein-bar-chip-cookie-calculator)
+  2. [Protein Snack Calculator](#protein-barchipcookie-calculator)
 3. [How tos](#how-tos)
   1. [Run](#run)
   2. [Host](#host)
