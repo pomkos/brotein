@@ -1,6 +1,23 @@
+# Table of Contents
+
+1. [Description](#brotein)
+2. [Screenshots](#screenshots)
+  1. [Whey Powder Calculator](#whey-powder-calculator)
+  2. [Protein Snack Calculator](#protein-bar-chip-cookie-calculator)
+3. [How tos](#how-tos)
+  1. [Run](#run)
+  2. [Host](#host)
+
 # Brotein
 Just a simple repo to compare protein powder of all types
 
+# Screenshots
+
+## Whey Powder Calculator
+<img src="https://github.com/pomkos/brotein/blob/master/brotein_pro.png" width="620">
+
+## Protein Bar/Chip/Cookie Calculator
+<img src="https://github.com/pomkos/brotein/blob/master/brotein_snack.png" width="620">
 
 # How tos
 ## Run
@@ -65,11 +82,3 @@ crontab -e
 ```
 
 5. Access the website at `localhost:8502`
-
-# Screenshots
-
-## Whey Powder Calculator
-<img src="https://github.com/pomkos/brotein/blob/master/brotein_pro.png" width="620">
-
-## Protein Bar/Chip/Cookie Calculator
-<img src="https://github.com/pomkos/brotein/blob/master/brotein_snack.png" width="620">
