@@ -1,4 +1,9 @@
 import streamlit as st
+import sys
+
+us_pw = sys.argv[1]
+db_ip = sys.argv[2]
+port = sys.argv[3]
 
 class saveInfo():
     def __init__(self, kind, row_info=0,show=False):
@@ -20,7 +25,7 @@ class saveInfo():
 
         # initialize engine
         #parent = os.path.dirname(os.getcwd()) # get parent of current directory
-        engine = sq.create_engine(f'sqlite:///brotein.db')
+        engine = sq.create_engine(f'postgres://{us_pw}@{db_ip}:{port}')
         meta = sq.MetaData()
         tz = timezone('US/Eastern')
 
