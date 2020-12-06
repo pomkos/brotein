@@ -3,3 +3,4 @@ sqlalchemy
 datetime
 pytz
 pandas
+psycopg2-binary # required for connecting to postgres
